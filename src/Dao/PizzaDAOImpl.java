@@ -59,34 +59,29 @@ public class PizzaDAOImpl implements PizzaDAO{
 
 	
 	@Override
-	public void updatePizza(int index, String code, String nom, double prix) throws UpdatePizzaException {
-//		boolean OK = false;
-//		boolean errorIndex = false;
-//		boolean errorData = false;
+	public void updatePizza(int index, String code, String nom, double prix) throws UpdatePizzaException {	
 		
+		boolean indexFound = false;
+		boolean errorData = false;
 		for (Pizza pizza : tableauPizza) {
-			if(pizza.getIndex() != index){
-				throw new UpdatePizzaException(UpdatePizzaException.UPDATEPIZZA_INDEX_NOT_CORRECT, UpdatePizzaException.ERRTYPE_UPDATE_PIZZA);
-			}else{
-				if( (code.trim().isEmpty()) || (nom.trim().isEmpty())  || (prix == 0)     ){
-					throw new UpdatePizzaException(UpdatePizzaException.UPDATEPIZZA_DATA_NOT_CORRECT, UpdatePizzaException.ERRTYPE_UPDATE_PIZZA);
-				}else{
-					pizza.setCode(code);
-					pizza.setNom(nom);
-					pizza.setPrix(prix);
-					System.out.println("Update OK!");
-				}
+			if(pizza.getIndex()==index){
+				indexFound = true;
+				
 			}
-			
 		}
 		
+		if(indexFound){
+			if( (code.trim().isEmpty()) || (nom.trim().isEmpty())  || (prix == 0)     ){
+				throw new UpdatePizzaException(UpdatePizzaException.UPDATEPIZZA_DATA_NOT_CORRECT, UpdatePizzaException.ERRTYPE_UPDATE_PIZZA);
+			}else{
+				tableauPizza[index].setCode(code);
+				tableauPizza[index].setNom(nom);
+				tableauPizza[index].setPrix(prix);
+			}
+		}else{
+			throw new UpdatePizzaException(UpdatePizzaException.UPDATEPIZZA_INDEX_NOT_CORRECT, UpdatePizzaException.ERRTYPE_UPDATE_PIZZA);
+		}
 		
-		
-		
-		
-		
-//		throw new UpdatePizzaException(UpdatePizzaException.UPDATEPIZZA_DATA_NOT_CORRECT, UpdatePizzaException.ERRTYPE_UPDATE_PIZZA);
-//		throw new UpdatePizzaException(UpdatePizzaException.UPDATEPIZZA_INDEX_NOT_CORRECT, UpdatePizzaException.ERRTYPE_UPDATE_PIZZA);
 	}
 
 	@Override
